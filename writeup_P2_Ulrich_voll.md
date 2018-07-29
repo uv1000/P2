@@ -45,26 +45,30 @@ You're reading it!
 #### 1. Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
 
 I adapted 
-[This .jpynb](https://github.com/udacity/CarND-Camera-Calibration/blob/master/camera_calibration.ipynb) provided in the classroom. 
+[this .jpynb](https://github.com/udacity/CarND-Camera-Calibration/blob/master/camera_calibration.ipynb) provided in the classroom. 
 
-The code for this step is contained in the first code cells of the IPython notebook located in
+The code for this step is contained in the code cells of Section 1 of the IPython notebook located in
 "./P2_SDC_Ulrich_Voll.ipynb".
 
-`objp` is a constant, representing cordinates of an idealised of a 9x6 chessboard in three-space (z = 0). 
+Here the grid `objp` is constant for all images, representing cordinates of an idealised 9x6 chessboard in three-space (z = 0). 
 
-In a loop over a list containing all example pictures I attempt to find chessboard coordinates. Whenever I find some, I append `objp` to the list `objpoints`, and the resulting `corners` to anotner list called `imgpoints`. In case no chessboard is found, nothing is appended to those lists. 
+In a loop over a list containing all example pictures I attempt to find chessboard coordinates.
 
-I then used the output `objpoints` and `imgpoints` to compute the camera calibration and 
-distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion 
-correction to one of the test images using the `cv2.undistort()` function and obtained this result: 
+Whenever I find some, I append `objp` to the list `objpoints`, and the resulting `corners` to another list called `imgpoints`. In case no chessboard is found, I append nothing to those lists. 
 
-Distorted:
+I then use the resulting lists `objpoints` and `imgpoints` to compute the camera calibration and 
+distortion coefficients using the `cv2.calibrateCamera()` function.  
+
+I apply this distortion  correction to one of the test images using the `cv2.undistort()` function and obtained this result: 
+
+Distorted (calibration3.jpg):
 ![alt text][image0]
 
 Undistorted (after correction):
 
 ![alt text][image1]
 
+Finally I save the coefficients mtx and dist to a pickle container.
 
 ### Pipeline (single images)
 
