@@ -19,9 +19,8 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image0]: ./camera_cal/calibration3.jpg "Distorted"
-[image1]: ./camera_cal/calibration3_undist.jpg "Undistorted"
-[image2]: ./test_images/test1.jpg "Road Transformed"
+[image1]: ./output_images/undistort_chessboard.png "Undistorted"
+[image2]: ./output_images/undistort_road_image.png "Road Transformed"
 [image3]: ./examples/binary_combo_example.jpg "Binary Example"
 [image4]: ./examples/warped_straight_lines.jpg "Warp Example"
 [image5]: ./examples/color_fit_lines.jpg "Fit Visual"
@@ -61,11 +60,7 @@ distortion coefficients using the `cv2.calibrateCamera()` function.
 
 I apply this distortion  correction to one of the test images using the `cv2.undistort()` function and obtained this result: 
 
-Distorted (calibration3.jpg):
-![alt text][image0]
-
-Undistorted (after correction):
-
+Distorted vs undistorted (calibration3.jpg):
 ![alt text][image1]
 
 Finally I save the coefficients mtx and dist to a pickle container.
@@ -74,7 +69,7 @@ Finally I save the coefficients mtx and dist to a pickle container.
 
 #### 1. Provide an example of a distortion-corrected image.
 
-To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
+Applying `cv2.undistort()` to test test_images/test1.jpg yields:
 ![alt text][image2]
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
