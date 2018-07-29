@@ -47,25 +47,21 @@ You're reading it!
 I adapted 
 [This .jpynb](https://github.com/udacity/CarND-Camera-Calibration/blob/master/camera_calibration.ipynb) provided in the classroom. 
 
-[comment]: <>The code for this step is contained in the first code cell of the IPython notebook located in
-[comment]: <>"./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).  
+The code for this step is contained in the first code cells of the IPython notebook located in
+"./P2_SDC_Ulrich_Voll.ipynb".
 
-[comment]: <>I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners 
-[comment]: <>in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the 
-[comment]: <> object points are the same for each calibration image.  Thus, `objp` is just a 
-[comment]: <>
-[comment]: <>replicated array of coordinates, and `objpoints` will be appended with a copy of it every 
-[comment]: <> time I successfully detect all chessboard corners
-[comment]: <> in a test image.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners
-[comment]: <>in the image plane with each successful chessboard detection.  
+`objp` is a constant, representing cordinates of an idealised of a 9x6 chessboard in three-space (z = 0). 
 
-[comment]: <>I then used the output `objpoints` and `imgpoints` to compute the camera calibration and 
-[comment]: <>distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion 
-[comment]: <>correction to the test image using the `cv2.undistort()` function and obtained this result: 
+In a loop over a list containing all example pictures I attempt to find chessboard coordinates. Whenever I find some, I append `objp` to the list `objpoints`, and the resulting `corners` to anotner list called `imgpoints`. In case no chessboard is found, nothing is appended to those lists. 
 
+I then used the output `objpoints` and `imgpoints` to compute the camera calibration and 
+distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion 
+correction to one of the test images using the `cv2.undistort()` function and obtained this result: 
+
+Distorted:
 ![alt text][image0]
 
-bla
+Undistorted (after correction):
 
 ![alt text][image1]
 
