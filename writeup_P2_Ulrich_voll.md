@@ -19,7 +19,7 @@ The goals / steps of this project are the following:
 [image2]: ./output_images/undistort_road_image.png "Road Transformed"
 [image3]: ./output_images/Thresholded_vs_original_image.png "Thresholded Binary Example"
 [image4]: ./output_images/Warped_vs_unwarped_straight.png "Warp Example"
-[image5]: ./examples/color_fit_lines.jpg "Fit Visual"
+[image5]: ./output_images//Lane_lines_recogized_on_test6.png "Fit Visual"
 [image6]: ./examples/example_output.jpg "Output"
 [video1]: ./project_video.mp4 "Video"
 
@@ -106,7 +106,13 @@ I verified that my perspective transform was working as expected by drawing the 
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+I adapted the sliding window algorithm for generating two 2nd order polynomial.
+
+I had to adapt the height of y-values summed for the initializing histogram (lower 2/3 instad of lower 1/2, as in the classroom quiz/example). I also increase the parameter "margin" from 100 to 125.  
+
+ The resulting algorithm in Section 2.4 of the .jpynb now yields satisfactory results for all test images provided.
+
+E.g. for image test6 I got:
 
 ![alt text][image5]
 
