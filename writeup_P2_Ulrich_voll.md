@@ -81,9 +81,9 @@ This yields:
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
-The code for my perspective transform includes a function called `unwarp()`, see Section 2.3 of the IPython notebook).  
+I perform the perspective transform using a self-defined function called `unwarp()`, see Section 2.3 of the IPython notebook).  
 
-The `unwarp()` function contains hand-tuned (`src`) and destination (`dst`) points.  I chose to hardcode the source and destination points as follows:
+The `unwarp()` function contains hand-tuned (`src`) and destination (`dst`) points. I tuned them by validating against the "straight" example pictures. I chose to hardcode the source and destination points as follows:
 
 ```python
  src = np.float32(
