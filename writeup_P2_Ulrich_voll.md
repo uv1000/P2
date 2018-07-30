@@ -67,7 +67,7 @@ Finally I save the coefficients mtx and dist to a pickle container.
 
 #### 1. Provide an example of a distortion-corrected image.
 
-Applying `cv2.undistort()` to test test_images/test1.jpg yields:
+Applying `cv2.undistort()` using the above parameters/coefficiont to test_images/test1.jpg yields:
 ![alt text][image2]
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
