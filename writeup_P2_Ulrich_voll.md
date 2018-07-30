@@ -74,7 +74,7 @@ Applying `cv2.undistort()` to test test_images/test1.jpg yields:
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color and gradient thresholds to generate a binary image. Logical OR of thresholding S value of HLS transform and Sobelx gradient.  This yields:
+Binary picture = Logical OR of thresholding S value of HLS transform and Sobelx gradient. Threshold values see .jpynb. This yields:
 
 ![alt text][image3]
 
