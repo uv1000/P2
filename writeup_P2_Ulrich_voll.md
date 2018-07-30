@@ -25,7 +25,7 @@ The goals / steps of this project are the following:
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
-### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
+### Here I consider the rubric points individually and describe how I addressed each point in my implementation.  
 
 ---
 
@@ -47,12 +47,14 @@ The code for this step is contained in the code cells of Section 1 of the IPytho
 
 Here the grid `objp` is constant for all images, representing cordinates of an idealised 9x6 chessboard in three-space (z = 0). 
 
-In a loop over a list containing all example pictures I attempt to find chessboard coordinates.
+In a loop over a list containing all example pictures I attempt to find chessboard coordinates, using cv2.findChessboardCorners().
 
-Whenever I find some, I append `objp` to the list `objpoints`, and the resulting `corners` to another list called `imgpoints`. In case no chessboard is found, I append nothing to those lists. 
+Whenever I succeed in finding some, the resulting `corners` to another list called `imgpoints`, and I also append `objp` to the list `objpoints`.
+
+In case no chessboard is found by  cv2.findChessboardCorners(), I append nothing to those lists. 
 
 I then use the resulting lists `objpoints` and `imgpoints` to compute the camera calibration and 
-distortion coefficients using the `cv2.calibrateCamera()` function.  
+distortion coefficients using the `cv2.calibrateCamera()` function.  Apparently this function is capable of accepting and averaging over an entire list of pairs (opjp,corners). 
 
 I apply this distortion  correction to one of the test images using the `cv2.undistort()` function and obtained this result: 
 
