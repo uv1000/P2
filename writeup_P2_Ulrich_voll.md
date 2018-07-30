@@ -1,6 +1,6 @@
 ## Writeup P2, Advanced Lane Finding, Ulrich Voll
 
----
+
 
 The goals / steps of this project are the following:
 
@@ -70,8 +70,11 @@ Applying `cv2.undistort()` to test test_images/test1.jpg yields:
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-Binary picture = Logical OR of thresholding S value of HLS transform and Sobelx gradient. Threshold values see .jpynb. This yields:
+Adapted the quiz .py file developed in the classroom. Thresholded Image =Binary picture = Logical OR of thresholding S value of HLS transform and Sobelx gradient. 
 
+Details including threshold values see .jpynb. 
+
+This yields:
 ![alt text][image3]
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
