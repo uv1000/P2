@@ -25,7 +25,7 @@ The goals / steps of this project are the following:
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
-### Here I consider the rubric points individually and describe how I addressed each point in my implementation.  
+### Here I consider the rubric points individually and describe how I addressed each point in my implementation in [this .jpynb](https://github.com/uv1000/P2/blob/master/P2_SDC_Ulrich_Voll.ipynb).  
 
 ---
 
@@ -67,7 +67,7 @@ Finally I save the coefficients mtx and dist to a pickle container.
 
 #### 1. Provide an example of a distortion-corrected image.
 
-Applying `cv2.undistort()` using the above parameters/coefficiont to test_images/test1.jpg yields:
+Applying `cv2.undistort()` using the above parameters/coefficients to test_images/test1.jpg yields:
 ![alt text][image2]
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
