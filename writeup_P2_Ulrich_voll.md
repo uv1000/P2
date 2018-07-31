@@ -19,8 +19,8 @@ The goals / steps of this project are the following:
 [image2]: ./output_images/undistort_road_image.png "Road Transformed"
 [image3]: ./output_images/Thresholded_vs_original_image.png "Thresholded Binary Example"
 [image4]: ./output_images/Warped_vs_unwarped_straight.png "Warp Example"
-[image5]: ./output_images//Lane_lines_recogized_on_test6.png "Fit Visual"
-[image6]: ./examples/example_output.jpg "Output"
+[image5]: ./output_images/Lane_lines_recogized_on_test6.png "Fit Visual"
+[image6]: ./output_images/Projecting_back_with_text.png "Output"
 [video1]: ./project_video.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
@@ -118,11 +118,16 @@ E.g. for image test6 I got:
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines # through # in my code in `my_other_file.py`
+I implemented this in section 2.5 of the .jpynb.
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+I implemented this in section 2.6 of the .jpynb.
+The function project_back(img,left_curverad, right_curverad,offset_x_m) projects the output image of pipeline step 2.4 (Fit lines with polynomial.), using a function warp_again() which is the inverse of the above warp(). 
+
+The new helper-function warp_again()  is essentially interchanging src-points and dst-points when calling cv2.getPerspectiveTransform()) relative to warp() from pipline step 2.3 (Apply perspective transform.) 
+
+Here is an example of my result on a test image:
 
 ![alt text][image6]
 
