@@ -21,7 +21,7 @@ The goals / steps of this project are the following:
 [image4]: ./output_images/Warped_vs_unwarped_straight.png "Warp Example"
 [image5]: ./output_images/Lane_lines_recogized_on_test6.png "Fit Visual"
 [image6]: ./output_images/Projecting_back_with_text.png "Output"
-[video1]: ./project_video.mp4 "Video"
+[video1]: ./output_project_video.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
