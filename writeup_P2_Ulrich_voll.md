@@ -185,9 +185,58 @@ Here is an example of my result on a test image:
 
 #### Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
+
+
+Merely daisy-chaining the above steps yields a just about acceptable result on the simplest videos, and totally fails on the challenge videos 
+
+In addition I made the following adapations. The overall structure of the code is not satisfactory in my eyes, but it does the trick. See discussion of shortcomings below. 
+
+- Instantiated two (global?!) Objects of self-defined class Line().  (It is ore a struct than a class really, as there are not methods, presently)
+- provided a second function for computing lane-line coefficients from prior, along the lines of the respective quizz in the classroom. There are now two functions  find_lane_pixels_from_scratch(binary_warped) and  find_lane_pixels_using_prev(binary_warped).
+
+- The latter function uses the (valid! whenever this function ist called) values of the polynomial coefficients stored in the property .best_fit. 
+    
+    left_fit = lLine.best_fit
+    right_fit = rLine.best_fit
+    
+
+- According to validity (using the class-property Line.valid) I compute coefficients using the sooner or the latter of those two functions. I.e. if the last estimate of *both* line was plausible, then the method "compute from prior" is applied.
+
+- Later in the code (in a rather hidden place, admittedly) I check for plausibility/validity of the new coefficiens and adapt the class-property "valid" accordingly.  If I get new plausible (and therefore considered valid) coefficients, the properties .best_fit and .valid of both lines are updated accordingly, in my function plausibility__check(). 
+
+-I call this function in measure_curvature_and_offset_real(). Admittedly a spurious place but I would have had to massively redesign the existing codebase. At this position all the information (distances in metres and the like) was available, and thats where I put ist. 
+
+- Here is the code of the plausibility check, at an early stage, the conditions may get more refined as I carry on. 
+
+'def plausibility_check(ploty_cr, left_fitx_cr, right_fitx_cr,left_curverad, right_curverad, offset_x_m):
+    
+    mindistance= np.min(right_fitx_cr- left_fitx_cr) # at least 3m typ. value: 3.35317400005
+    maxdistance=np.max((right_fitx_cr- left_fitx_cr)) # no more than 4m typ. value: 3.61941697379
+    distance_ok= (mindistance > 2.9) and (maxdistance <3.8)
+    isplausible_left=distance_ok   # to be implented. Are the new values any good?
+    if isplausible_left:  # if yes update lLine / rLine 
+        lLine.valid=True
+        lLine.best_fit=left_fit
+        lLine.allx = left_fitx
+        lLine.ally = ploty
+    else: # otherwise keep old values and mark invalid
+        lLine.valid=False
+        
+    isplausible_right=distance_ok # to be implented. Are the new values any good?
+    if isplausible_right:  # if yes update lLine / rLine 
+        rLine.valid=True
+        rLine.best_fit=right_fit
+        rLine.allx = right_fitx
+        rLine.ally = ploty
+    else: # otherwise keep old values and mark invalid
+        rLine.valid=False
+    return isplausible_left, isplausible_right '
+
+- Note that the actual update of the "memory"-class Line() is performed implicitely as as side-effect on a global Variable. I know this is not perfect ... 
+
+
 Here's a [link to my video result](./output_project_video.mp4)
 
----
 
 ### 4 Discussion
 
