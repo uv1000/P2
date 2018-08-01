@@ -77,7 +77,7 @@ Applying `cv2.undistort()` using the parameters/coefficients from above to test_
 
 I chose not to write a separate wrapper-function around cv2.undistort() just for the sake of its own, in order avoid bloating the code.
 
-#### 2..2 Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
+#### 2.2 Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
 I implemented this in section 2.2 of my .jpynb.
 
