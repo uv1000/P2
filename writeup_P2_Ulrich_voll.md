@@ -4,14 +4,21 @@
 
 The goals / steps of this project are the following:
 
-* Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
-* Apply a distortion correction to raw images.
-* Use color transforms, gradients, etc., to create a thresholded binary image.
-* Apply a perspective transform to rectify binary image ("birds-eye view").
-* Detect lane pixels and fit to find the lane boundary.
-* Determine the curvature of the lane and vehicle position with respect to center.
-* Warp the detected lane boundaries back onto the original image.
-* Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
+1 Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
+
+2.1 Apply a distortion correction to raw images.
+
+2.2 Use color transforms, gradients, etc., to create a thresholded binary image.
+
+2.3 Apply a perspective transform to rectify binary image ("birds-eye view").
+
+2.4 Detect lane pixels and fit to find the lane boundary.
+
+2.5 Determine the curvature of the lane and vehicle position with respect to center.
+
+2.6 Warp the detected lane boundaries back onto the original image.
+
+3 Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
 [//]: # (Image References)
 
@@ -29,13 +36,7 @@ The goals / steps of this project are the following:
 
 ---
 
-### Writeup / README
-
-#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Advanced-Lane-Lines/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
-
-You're reading it!
-
-### Camera Calibration
+### 1 Camera Calibration
 
 #### 1. Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
 
@@ -65,9 +66,9 @@ Distorted vs undistorted (calibration3.jpg):
 
 Finally I save the coefficients mtx and dist to a pickle container.
 
-### Pipeline (single images)
+### 2 Pipeline (single images)
 
-#### 1. Provide an example of a distortion-corrected image.
+#### 2.1 Provide an example of a distortion-corrected image.
 
 I implemented this in section 2.1 of my .jpynb.
 
@@ -76,7 +77,7 @@ Applying `cv2.undistort()` using the parameters/coefficients from above to test_
 
 I chose not to write a separate wrapper-function around cv2.undistort() just for the sake of its own, in order avoid bloating the code.
 
-#### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
+#### 2..2 Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
 I implemented this in section 2.2 of my .jpynb.
 
@@ -93,7 +94,7 @@ Details including threshold values see .jpynb.
 This yields:
 ![alt text][image3]
 
-#### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
+#### 2.3 Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
 I implemented this in section 2.3 of my .jpynb.
 
@@ -120,7 +121,7 @@ I verified that my perspective transform was working as expected by drawing the 
 
 ![alt text][image4]
 
-#### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
+#### 2.4 Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
 I implemented this in section 2.4 of my .jpynb.
 
@@ -138,7 +139,7 @@ E.g. for image test6 I got:
 
 ![alt text][image5]
 
-#### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
+#### 2.5 Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
 I implemented this in section 2.5 of the .jpynb.
 
@@ -166,7 +167,7 @@ Offest is computed by simply forming the arithmetic mean between the closest rig
     
     
 
-#### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
+#### 2.6 Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
 I implemented this in section 2.6 of the .jpynb.
 
@@ -180,16 +181,16 @@ Here is an example of my result on a test image:
 
 ---
 
-### Pipeline (video)
+### 3 Pipeline (video)
 
-#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
+#### Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
 Here's a [link to my video result](./project_video.mp4)
 
 ---
 
-### Discussion
+### 4 Discussion
 
-#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+####  Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
