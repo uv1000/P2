@@ -187,14 +187,15 @@ Here is an example of my result on a test image:
 
 
 
-Merely daisy-chaining the above steps yields a just about acceptable result on the simplest videos, and totally fails on the challenge videos 
+Merely daisy-chaining the above steps yields a just about acceptable result on the simplest video (project_video), and totally fails on the challenge videos. 
 
-In addition I made the following adapations. The overall structure of the code is not satisfactory in my eyes, but it does the trick. See discussion of shortcomings below. 
+To overcome these shortcomings, I introduced a "memory"-class as suggested. I made the following adapations. The overall structure of the code is not satisfactory in my eyes, but it does the trick. See discussion of shortcomings below. 
 
-- Instantiated two (global?!) Objects of self-defined class Line().  (It is ore a struct than a class really, as there are not methods, presently)
-- provided a second function for computing lane-line coefficients from prior, along the lines of the respective quizz in the classroom. There are now two functions  find_lane_pixels_from_scratch(binary_warped) and  find_lane_pixels_using_prev(binary_warped).
+- I instantiated two (global?!) Objects of self-defined class Line().  ( Class Line() is more a struct than a class really, as there are not methods, presently). I copied it and it (presently) has far more properties than I (presently) am making use of.
 
-- The latter function uses the (valid! whenever this function ist called) values of the polynomial coefficients stored in the property .best_fit. 
+-  I provided a second function for computing lane-line coefficients from prior, along the lines of the respective quizz in the classroom. There are now two functions  find_lane_pixels_from_scratch(binary_warped) and  find_lane_pixels_using_prev(binary_warped).
+
+- The latter function reads out and uses the (valid! whenever this function ist called) values of the polynomial coefficients stored in the property .best_fit of the respective "memory"-class. 
     
     left_fit = lLine.best_fit
     right_fit = rLine.best_fit
@@ -202,11 +203,11 @@ In addition I made the following adapations. The overall structure of the code i
 
 - According to validity (using the class-property Line.valid) I compute coefficients using the sooner or the latter of those two functions. I.e. if the last estimate of *both* line was plausible, then the method "compute from prior" is applied.
 
-- Later in the code (in a rather hidden place, admittedly) I check for plausibility/validity of the new coefficiens and adapt the class-property "valid" accordingly.  If I get new plausible (and therefore considered valid) coefficients, the properties .best_fit and .valid of both lines are updated accordingly, in my function plausibility__check(). 
+- Later in the code (in a rather hidden place, admittedly) I check for plausibility/validity of the new coefficiens and adapt the class-property .valid and the memorized coefficients  in the property .best_fit accordingly.  If I get new plausible (and therefore considered valid) coefficients, the properties .best_fit and .valid of both lines are updated accordingly, this happens in my function plausibility_check(). 
 
--I call this function in measure_curvature_and_offset_real(). Admittedly a spurious place but I would have had to massively redesign the existing codebase. At this position all the information (distances in metres and the like) was available, and thats where I put ist. 
+-I call this function plausibility_check() in measure_curvature_and_offset_real(). Admittedly a spurious place but I would have had to massively redesign the existing codebase. At least this point in the code all required information (distances in metres and the like) was available, and thats why I put it there. 
 
-- Here is the code of the plausibility check, at an early stage, the conditions may get more refined as I carry on. 
+- Here is the code of the plausibility check, at an early stage, the conditions may get more refined/extended as I carry on. 
 
 'def plausibility_check(ploty_cr, left_fitx_cr, right_fitx_cr,left_curverad, right_curverad, offset_x_m):
     
@@ -232,7 +233,7 @@ In addition I made the following adapations. The overall structure of the code i
         rLine.valid=False
     return isplausible_left, isplausible_right '
 
-- Note that the actual update of the "memory"-class Line() is performed implicitely as as side-effect on a global Variable. I know this is not perfect ... 
+- Note that the actual update of the "memory"-class Line() is performed implicitely as as side-effect on a global Variable. I know this is not perfect, ok it is messy ... 
 
 
 Here's a [link to my video result](./output_project_video.mp4)
