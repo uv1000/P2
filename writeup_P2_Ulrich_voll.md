@@ -39,13 +39,15 @@ Note 1: Please find my new, corrected approach .ipynb in [P2_SDC_Ulrich_Voll_v2.
 
 Note 2: Due to changes in the way the "Memory objects" are handled in my corrected approach the generation of the static images does no longer work the same as in the original .ipynb. Please refer to this .ipnb and the initial writeup (below) for everything concerning "single images".
 
-Here's a [link to my video result output_project_video_v2.mp4](./output_project_video_v2.mp4)
+Here is a [link to my video output_project_video_v2.mp4](./output_project_video_v2.mp4)
 
 #### 1. Changes in Submission V2
 
-- fixed a bug in the way the last valid lane-parameters were visulized. I now plot the last valid values stored in the "Memory Objects" lLane and rLane. 
+- Fixed a bug in the way the last valid lane-parameters were visulized. I now plot the last valid values stored in the "Memory Objects" lLane and rLane. 
 
 - Adapted the tresholding according to reviewers suggestions. 
+
+- slightly reworked the "plausibility-check" concerning distance (mean instead of min/max)
 
 - Turned off (sic!) the "compute from prior" variant, as it seems to produce a better video. 
 
@@ -57,30 +59,31 @@ Here's a [link to my video result output_project_video_v2.mp4](./output_project_
 
 #### 2. Discussion of Submission V2
 
-- having fixed the bug makes the image far more stable, in fact due to the bug I was alway plotting the "fresh" candidate lane-lines however implausible and wildly varying they were.
+- Having fixed the bug makes the image far more stable, in fact due to the bug I was alway plotting the "fresh" candidate lane-lines however implausible and wildly varying they were.
 
-- the colour-thresholding has improved considerably, particurlarly on the yellow line. Not so much on the white (striped) lines. 
+- The colour-thresholding has improved considerably, particurlarly on the yellow line. Not so much on the white (striped) lines. 
 
-- There remains some (considerably reduced) amount of flickering when the binary-thresholding produces "patchy" patterns (in the shade). However some flickering might be acceptable to show that the image is "alive". From a safety perspective, exptrapolating lines for too long in a situation where there (possibly) are no longer any lines may be dangerous.
+- There remains some (considerably reduced) amount of flickering when the binary-thresholding produces "patchy" patterns (in the shade). However some flickering might be acceptable to show that the image is "alive". From a safety perspective, exprapolating lines for too long in a situation where there (possibly) are no longer any lines may be dangerous.
 
-- Some of the inaccuracies noticed by the first reviewer were due to the "hold on to last valid values" mechanism. I discovered it is much better to turn off the "compute from prior" section of the code. The code was working in the quizz, possibly a bug came in when integrating it in the project-.ipynb (if I could spot such a bug I would fix it, obviously).   I am surprised "compute from prior" does not do better than performing a histogram search  from scratch each time, but this is apparently the case.  
+- Some of the inaccuracies found by the first reviewer were due to the "hold on to last valid values" mechanism. I discovered it is much better to turn off the "compute from prior" section of the code. The code was working in the quizz, possibly a bug came in when integrating it in the project-.ipynb (if I could spot such a bug I would fix it, obviously). I am surprised that "compute from prior" should not do better than performing a histogram search  from scratch each time, but this is apparently the case.  
 
-- I chose  the smoothing hyperparameter alpha at 0.5 in order to compromise between lagging behind too much and being too sensitive in reacting to new flickering estimates. 
+- I chose the smoothing hyperparameter alpha at 0.5 in order to compromise between lagging behind too much and being too sensitive in reacting to new flickering candidate-estimates. 
 
-- The .ipynb still fails on the challenge videos. Not so badly as the first one, in that the estimates are no longer wildly flickering, but it still fails badly on the challenge videos. Only rarely new valid estimates are made, the projected lane-lines appear frozen inbetween. Moreover those rare new estimates classified as "valid" are wrong on many  occations in the challenge videos.
+- The .ipynb still fails on the challenge videos. Not so badly as the first one, in that the estimates are no longer wildly flickering, but it still fails badly on the challenge videos. Only rarely new valid estimates are made, the projected lane-lines appear frozen inbetween. Moreover those rare new estimates classified as "valid" are wrong on many occations in the challenge videos.
 
 - possible Improvement 1: Further improving on the thresholding. 
 
 - possible Improvement 2: Try different averaging methods. 
 
-- possible Improvement 3: Furher elaborate on the plausibility check for new estimates. (More valid estimates that are truely  valid, less "false positives"), possibly including a check with cv2.matchShapes
+- possible Improvement 3: Further elaborate on the plausibility check for new estimates. (More valid estimates that are truely valid, less "false positives"), possibly including a check with cv2.matchShapes
 
-- possible Improvement 4: Search for and fix a bug in the "from prior" code (if there is any) (hard to believe  using "from prior"  should help...)
+- possible Improvement 4: Search for and fix a bug in the "from prior" code (if there is any) (hard to believe using "from prior" should not help...)
 
 - I am sceptical if the harder_challenge_video can be solved at all by this approach considering the narrow curves with lines disappearing behind the bonnet, also the light effects from looking into the sun ... 
 
 
 #### 3. Reviewers Comments
+
 1 Applying color threshold to the B(range:145-200 in LAB for shading & brightness changes and R in RGB in final pipeline can also help in detecting the yellow lanes.
 
 2 And thresholding L (range: 215-255) of Luv for whites.
@@ -103,11 +106,11 @@ Here's a [link to my video result output_project_video_v2.mp4](./output_project_
 
 Comments/Points 1,2,5 above really helped, mainly for the yellow lines. 
 
-Concerning Points 3,4,6 above: Please note that such mechanisms had been in place in V1, although there may have been a bug in the implementation. 
+Concerning Points 3,4,6 above: Please note that such mechanisms had been in place in V1, although there may have been bugs in the implementation. 
 
-Concerning Point 8, I am not entirely sure what you mean by the "warp polygon". Are you suggesting I should perform an "adaptive clipping"? Ah, by comparing the shape  (the green area) defined by the new values and the one defined by the old values using "match shape" when deciding if I should use the new values or the old ones. Cf. my remark on "faking" things for too long from a safety perspective ... 
+Concerning Point 8, I am not entirely sure what you mean by the "warp polygon". Are you suggesting I should perform an "adaptive clipping"? Ah, by comparing the shape (the green area) defined by the new values and the one defined by the old values using "match shape" when deciding if I should use the new values or the old ones, i.e. in the plausibility-check. Cf. my remark on "faking" things for too long from a safety perspective ... 
 
-Concerning Point 9. I think the mapping for "unwarping" (back to the road) itself is ok and it works perfectly for static images. I believe the artefacts observed are due to "holding on too long" and, indeed, to the lane lines being incorrectly detected as the are not clearly visible (at least to the algorithm).  
+Concerning Point 9. I think the mapping for "unwarping" (back to the road) itself is ok and it works perfectly for static images. I believe the artefacts observed are due to "holding on too long" and, as you say, to the lane lines being incorrectly detected as the are not clearly visible (at least to the algorithm).  
 
 
 
