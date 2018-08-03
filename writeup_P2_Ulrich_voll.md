@@ -189,11 +189,11 @@ Here is an example of my result on a test image:
 
 Merely daisy-chaining the above steps yields a just about acceptable result on the simplest video (project_video), and totally fails on the challenge videos. 
 
-To overcome these shortcomings, I introduced a "memory"-class as suggested. I made the following adapations. The overall structure of the code is not satisfactory in my eyes, but it does the trick. See discussion of shortcomings below. 
+To overcome these shortcomings, I introduced a "memory"-class as suggested. I made the following adapations. The overall structure of the code is not satisfactory in my eyes, but it somewhat does the trick. See discussion of shortcomings below. 
 
-- I instantiated two (global?!) Objects of self-defined class Line().  ( Class Line() is more a struct than a class really, as there are not methods, presently). I copied it and it (presently) has far more properties than I (presently) am making use of.
+- I instantiated two (global?!) Objects of self-defined class Line().  ( Class Line() is more a struct than a class really, as there are not methods, presently). I am using far less properties as in the example suggested.
 
--  I provided a second function for computing lane-line coefficients from prior, along the lines of the respective quizz in the classroom. There are now two functions  find_lane_pixels_from_scratch(binary_warped) and  find_lane_pixels_using_prev(binary_warped).
+-  I provided a second function for computing lane-line coefficients from prior, along the lines of the respective quizz in the classroom. There are now two functions  find_lane_pixels_from_scratch(binary_warped) and  find_lane_pixels_using_prev(binary_warped). I decide upon which one to use upon a confidence value of the newly computed lane-line parameters. 
 
 - The latter function reads out and uses the (valid! whenever this function ist called) values of the polynomial coefficients stored in the property .best_fit of the respective "memory"-class. 
     
@@ -201,13 +201,13 @@ To overcome these shortcomings, I introduced a "memory"-class as suggested. I ma
     right_fit = rLine.best_fit
     
 
-- According to validity (using the class-property Line.valid) I compute coefficients using the sooner or the latter of those two functions. I.e. if the last estimate of *both* line was plausible, then the method "compute from prior" is applied.
+- According to validity (using the class-property Line.valid, it has become a score now, really) I compute coefficients using the sooner or the latter of those two functions. I.e. if the last estimate of *both* lines was plausible, then the method "compute from prior" is applied.
 
 - Later in the code (in a rather hidden place, admittedly) I check for plausibility/validity of the new coefficiens and adapt the class-property .valid and the memorized coefficients  in the property .best_fit accordingly.  If I get new plausible (and therefore considered valid) coefficients, the properties .best_fit and .valid of both lines are updated accordingly, this happens in my function plausibility_check(). 
 
--I call this function plausibility_check() in measure_curvature_and_offset_real(). Admittedly a spurious place but I would have had to massively redesign the existing codebase. At least this point in the code all required information (distances in metres and the like) was available, and thats why I put it there. 
+-I call this function plausibility_check() in measure_curvature_and_offset_real(). Admittedly a spurious place but I would have had to massively redesign the existing codebase. At least at this point in the code all required information (distances in metres and the like) was available, and thats why I put it there. 
 
-- Here is the code of the plausibility check, at an early stage, the conditions may get more refined/extended as I carry on. 
+- Here is the code of the plausibility check, at an early stage, the conditions may get more refined/extended as I carry on. (I did indeed, please refer to the code for details.)
 
 'def plausibility_check(ploty_cr, left_fitx_cr, right_fitx_cr,left_curverad, right_curverad, offset_x_m):
     
@@ -235,6 +235,13 @@ To overcome these shortcomings, I introduced a "memory"-class as suggested. I ma
 
 - Note that the actual update of the "memory"-class Line() is performed implicitely as as side-effect on a global Variable. I know this is not perfect, ok it is messy ... 
 
+- In the memory structure there should be always a valid encoding of lane lines. The visulisation always plots this last valid encoding. This somehow does not always work. 
+
+- I performed smoothing, using an exponential moving average 
+new value = (1-alpha) * old_value + alpha * new_value
+This performs smoothing like in a PT1-Filter. Only plausible new parameters are allowed to contribute as "new_value"s.
+I suspect that this is not working as expected, see below. 
+
 
 Here's a [link to my video result](./output_project_video.mp4)
 
@@ -243,4 +250,17 @@ Here's a [link to my video result](./output_project_video.mp4)
 
 ####  Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+The algorithm performs just about acceptable on the simplest video (project_video.mp4).
+
+It badly fails on the two challenge videos, and I see no obvious way to improve on them, presently.
+
+Possibly this is related to the aforementioned problem that there should not be any non-plausible line-encodings stored in the "Memory-Objects" lLine/rLine. Only plausible new line-encodings are allowed to go into the smoothing. And only the smoothed values in the "Memory-Objects" are being plotted (at least this is what I indended). 
+
+However, in the challenge videos the plotted lanes jump and whiggle around. This is an indication, that this "select plausible and smoothe" approach does not work as intended.  
+
+The code should be massively redesigned, more OO design. The classes should have methods for updating them and the like.
+
+
+
+
+
